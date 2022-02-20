@@ -1,7 +1,7 @@
 # 我的第一个SpringSecurity工程
 - 正常情况的一个SpringBoot项目，启动直接可以通过浏览器访问到helloWorld
 
-![SrpingBootHellowold](img/1.png)
+![SrpingBootHellowold](https://raw.githubusercontent.com/MrLiPeter/SpringSecurity-Study/master/day01/img/1.png)
 
 - 集成SpringSecurityApi,后启动项目
 
