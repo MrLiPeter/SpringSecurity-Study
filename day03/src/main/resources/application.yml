@@ -1,0 +1,15 @@
+logging:
+    pattern:
+        console: '%clr(%d{E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint}
+            %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n'
+        level:
+            org.springframework.security:DEBUG
+
+spring:
+    application:
+        name:uaa
+    security:
+        user:
+            name: user
+            password: 12345678 #小于八位不会生效
+            roles: USER,ADMIN
