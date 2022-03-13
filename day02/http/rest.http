@@ -1,18 +1,19 @@
+@password=20148d3b-e492-4593-9c8f-9c67f604405a
 ###
 GET http://localhost:8080/api/greeting HTTP/1.1
-Authorization: Basic user e0db7134-e1d7-4133-a215-1b00040728f6
+Authorization: Basic user {{password}}
 
 ###
 POST  http://localhost:8080/api/greeting?name="李寻欢" HTTP/1.1
-Authorization: Basic user  82331631-20da-4e9d-be2a-114492065200
+Authorization: Basic user  {{password}}
 
 ###
 PUT http://localhost:8080/api/greeting/梁非凡 HTTP/1.1
-Authorization: Basic user  8924c53c-1de4-43df-85bf-fdf0ef3e451c
+Authorization: Basic user {{password}}
 
 ###
 POST http://localhost:8080/api/entityGreeting?name="李寻欢" HTTP/1.1
-Authorization: Basic user 20148d3b-e492-4593-9c8f-9c67f604405a
+Authorization: Basic user {{password}}
 Content-Type: application/json
 
 {
