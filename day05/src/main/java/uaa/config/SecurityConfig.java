@@ -1,7 +1,6 @@
-package com.lxh.uaa.config;
+package uaa.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(req->req.antMatchers("/api/**").authenticated())
                 .formLogin(form -> form.loginPage("/login").permitAll())
                 .httpBasic(withDefaults())
-                .csrf(withDefaults());
+                .csrf(AbstractHttpConfigurer::disable);
     }
 
     @Override
