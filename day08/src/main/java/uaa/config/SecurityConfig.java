@@ -122,7 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER","ADMIN")
                 .and().withUser("lisi")
 //                .password(new MessageDigestPasswordEncoder("SHA-1").encode("12345678"))
-                .password("{SHA-1}{XZanBY0OPJksOchI2ze2MDwnX69+Jodcutswf9bYlDg=}92d4d6612c28293d9c2023a79191cfaa89981b67")
+                .password("{SHA-1}{NJrgZSWGJjI8XU6B/uAf3zGNsILyQzMkFvMOPtuVAdM=}984325e3920910d7a0a2baabed434b224284e26f")
                 .roles("USER");
     }
 
@@ -134,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         val idForDefault = "bcrypt";
         val encoders = Map.of(idForDefault,
                 new BCryptPasswordEncoder(),"SHA-1",
-                new MessageDigestPasswordEncoder("MD5"));
+                new MessageDigestPasswordEncoder("SHA-1"));
         return new DelegatingPasswordEncoder(idForDefault,encoders);
     }
 
