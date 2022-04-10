@@ -1,0 +1,10 @@
+POST http://{{host}}/authorize/register
+Content-Type: application/json
+
+{
+  "username": "lisi",
+  "name": "李四lisi",
+  "password": "12345678",
+  "matchPassword": "12345678",
+  "email": "lisi@com"
+}
