@@ -1,0 +1,27 @@
+POST http://{{host}}/authorize/register
+Content-Type: application/json
+
+{
+  "username": "lisi",
+  "name": "李四lisi",
+  "password": "1A2b3c45!678",
+  "matchPassword": "1A2b3c45!678",
+  "email": "lisi@123com"
+}
+
+###
+POST {{host}}/authorize/login
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "12345678"
+}
+###
+GET {{host}}/api/principal
+Authorization: Basic lisi 12345678
+
+###
+GET {{host}}/api/authentication
+Authorization: Basic lisi 12345678
+
