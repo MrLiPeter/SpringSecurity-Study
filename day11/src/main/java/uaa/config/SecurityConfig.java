@@ -8,6 +8,7 @@ import org.apache.logging.log4j.message.Message;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
@@ -18,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
@@ -38,6 +40,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 @Import(SecurityProblemSupport.class)
+@Order(99)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ObjectMapper objectMapper;
@@ -46,9 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
-                exceptionHandling(exp->exp
+                requestMatchers(req->req.mvcMatchers("/authorize/**","/api/**","/admin/**"))
+                .exceptionHandling(exp->exp
                         .authenticationEntryPoint(securityProblemSupport)
                         .accessDeniedHandler(securityProblemSupport))
+                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests(req->req.
                         antMatchers("/authorize/**").permitAll().
                         antMatchers("/api/**").hasRole("USER")
@@ -57,14 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAt(restAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable);
-//                .formLogin(form -> form.loginPage("/login")
-//                        .successHandler(jsonAuthticationSuccessHandler())
-//                        .failureHandler(jsonAuthenticationFailureHandler())
-//                        .permitAll())
-//                .httpBasic(withDefaults())
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .rememberMe(rememberme->rememberme.tokenValiditySeconds(30*24*3600).rememberMeCookieName("somekeyToRemember"))//rememberMe设置
-//                .logout(logout -> logout.logoutUrl("/perform_logout").logoutSuccessHandler(jsonLogoutSuccessHandler()));
+
     }
 
     private RestAuthenticationFilter restAuthenticationFilter() throws Exception {
@@ -149,7 +147,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers("/public/**","/error")
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().mvcMatchers("/public/**","/error");
     }
 }
