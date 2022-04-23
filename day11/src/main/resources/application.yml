@@ -10,6 +10,9 @@ server:
     whitelabel:
       enabled: true
   port: 8080
+  servlet:
+    encoding:
+      force: true
 
 spring:
   messages:

@@ -20,8 +20,15 @@
         <maven.compiler.target>11</maven.compiler.target>
         <bootstrap.version>4.5.0</bootstrap.version>
         <passay.version>1.6.1</passay.version>
+        <problem.version>0.26.1</problem.version>
     </properties>
     <dependencies>
+        <!--problem-->
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>problem-spring-web</artifactId>
+            <version>${problem.version}</version>
+        </dependency>
         <!--passay-->
         <dependency>
             <groupId>org.passay</groupId>

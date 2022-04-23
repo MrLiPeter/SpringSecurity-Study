@@ -7,6 +7,7 @@ import lombok.val;
 import org.apache.logging.log4j.message.Message;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.thymeleaf.standard.expression.MessageExpression;
+import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 import uaa.filter.RestAuthenticationFilter;
 
 import java.util.Map;
@@ -35,12 +37,19 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Slf4j
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
+@Import(SecurityProblemSupport.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ObjectMapper objectMapper;
+    private final SecurityProblemSupport securityProblemSupport;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests(req->req.
+        http.
+                exceptionHandling(exp->exp
+                        .authenticationEntryPoint(securityProblemSupport)
+                        .accessDeniedHandler(securityProblemSupport))
+                .authorizeRequests(req->req.
                         antMatchers("/authorize/**").permitAll().
                         antMatchers("/api/**").hasRole("USER")
                         .antMatchers("/admin/**").hasRole("ADMIN")
