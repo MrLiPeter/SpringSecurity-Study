@@ -32,6 +32,7 @@ import org.thymeleaf.standard.expression.MessageExpression;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 import uaa.filter.RestAuthenticationFilter;
 
+import javax.sql.DataSource;
 import java.util.Map;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -45,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ObjectMapper objectMapper;
     private final SecurityProblemSupport securityProblemSupport;
+    private final DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -123,15 +125,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user")
-//                .password(passwordEncoder().encode("12345678"))
-                .password("{bcrypt}$2a$10$n8/JPcFt8jZM6479XvFnQe07ppeDRok4D.kXe3JQX3Y3DsY04JyN2")
-                .roles("USER","ADMIN")
-                .and().withUser("lisi")
-//                .password(new MessageDigestPasswordEncoder("SHA-1").encode("12345678"))
-                .password("{SHA-1}{NJrgZSWGJjI8XU6B/uAf3zGNsILyQzMkFvMOPtuVAdM=}984325e3920910d7a0a2baabed434b224284e26f")
-                .roles("USER");
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username,password,enabled from lxh_users where username=?")//如果想通过name来登录,可以写成select name as username 。。。。
+                .usersByUsernameQuery("select username,password,enabled from lxh_authorities where username=?")
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -148,6 +146,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers("/public/**","/error");
+        web.ignoring().antMatchers("/public/**","/error/**","/h2-console/**");
     }
 }

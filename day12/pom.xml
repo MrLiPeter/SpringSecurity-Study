@@ -23,6 +23,17 @@
         <problem.version>0.26.1</problem.version>
     </properties>
     <dependencies>
+        <!--jdbc-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <!--h2-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <!--problem-->
         <dependency>
             <groupId>org.zalando</groupId>
