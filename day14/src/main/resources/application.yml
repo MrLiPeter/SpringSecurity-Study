@@ -1,0 +1,26 @@
+logging:
+  pattern:
+    console: '%clr(%d{E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint}
+              %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n'
+server:
+  error:
+    whitelabel:
+      enabled: true
+  port: ${SERVER_PORT:8080}
+  servlet:
+    encoding:
+      force: true
+
+spring:
+  application:
+    name: uaa
+  messages:
+    always-use-message-format: false
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: true
+    use-code-as-default-message: false
+  datasource:
+    initialization-mode: embedded
+  activate:
+    on-profile: dev
