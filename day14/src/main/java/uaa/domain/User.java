@@ -32,6 +32,7 @@ public class User implements UserDetails,Serializable {
     private String password;
     @Column(length = 255,unique = true,nullable = false)
     private String email;
+    private String mobile;
     @Column(nullable = false)
     private boolean enabled;
     @Column(name = "account_non_expired",nullable = false)

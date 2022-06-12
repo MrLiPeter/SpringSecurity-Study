@@ -4,11 +4,9 @@ import lombok.Data;
 import uaa.annotation.ValidEmail;
 import uaa.annotation.ValidPassword;
 import uaa.annotation.ValidPasswordMatch;
+import uaa.config.Constants;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @Data
@@ -26,6 +24,12 @@ public class UserDto implements Serializable {
     private String password;
 
     private String matchPassword;
+
+    @NotNull
+    @Pattern(
+            regexp = Constants.PATTERN_MOBILE
+    )
+    private String mobile;
 
     @NotNull
     @ValidEmail

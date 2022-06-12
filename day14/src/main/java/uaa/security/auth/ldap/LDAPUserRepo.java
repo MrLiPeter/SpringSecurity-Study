@@ -8,5 +8,4 @@ import java.util.Optional;
 @Repository
 public interface LDAPUserRepo extends LdapRepository<LDAPUser> {
     Optional<LDAPUser> findByUsernameAndPassword(String username, String password);
-
 }
