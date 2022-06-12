@@ -49,3 +49,4 @@ spring:
       port: 8389
     urls: ldap://localhost:8389/
   profiles: dev
+

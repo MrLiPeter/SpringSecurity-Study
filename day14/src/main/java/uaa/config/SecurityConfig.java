@@ -29,6 +29,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 import uaa.security.auth.ldap.LDAPMultiAuthenticationProvider;
 import uaa.security.auth.ldap.LDAPUserRepo;
+import uaa.security.filter.JwtFilter;
 import uaa.security.filter.RestAuthenticationFilter;
 import uaa.security.userdetails.UserDetailsPasswordServiceImpl;
 import uaa.security.userdetails.UserDetailsServiceImpl;
@@ -48,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsService;
     private final UserDetailsPasswordServiceImpl userDetailsPasswordService;
     private final LDAPUserRepo ldapUserRepo;
+    private final JwtFilter jwtFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -64,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .anyRequest().authenticated())
                 .addFilterAt(restAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
 

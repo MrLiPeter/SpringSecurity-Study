@@ -12,7 +12,6 @@ Content-Type: application/json
 ###
 POST {{host}}/authorize/login
 Content-Type: application/json
-
 {
   "username": "user1",
   "password": "12345678"
@@ -23,5 +22,18 @@ Authorization: Basic user1 12345678
 
 ###
 GET {{host}}/api/authentication
-Authorization: Basic lisi 12345678
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJseGgiLCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInN1YiI6InVzZXIxIiwiaWF0IjoxNjU0NDQ1OTAzLCJleHAiOjE2NTQ0NDYyMDN9.VvYGvLHktZaHzXs7Q0dGGiIQQ2xswHwSHUuU-NvNyRzVTe3wmGl-TN1iOV0nH9RKqR9KMgnhVMjhvMcYsQENBw
+
+###
+POST {{host}}/authorize/token
+Content-Type: application/json
+
+{
+  "userName": "user1",
+  "password": "12345678"
+}
+
+###
+POST {{host}}/authorize/token/refresh?refreshToken={{refreshToken}}
+Authorization: Bearer {{accessToken}}
 

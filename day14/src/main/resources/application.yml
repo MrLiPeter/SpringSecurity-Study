@@ -24,3 +24,8 @@ spring:
     initialization-mode: embedded
   activate:
     on-profile: dev
+
+lxh:
+  jwt:
+    access-token-expire-time: 300000
+    refresh-token-expire-time: 2592000000
