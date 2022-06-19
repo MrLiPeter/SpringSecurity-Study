@@ -22,24 +22,38 @@
         <passay.version>1.6.1</passay.version>
         <problem.version>0.26.1</problem.version>
         <jjwt.version>0.11.2</jjwt.version>
+        <otp.version>0.2.0</otp.version>
+        <redisson.version>3.12.5</redisson.version>
+        <embedded.redis.version>0.7.2</embedded.redis.version>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>${bootstrap.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- SendGrid 依赖 -->
+        <dependency>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+            <version>${sendgrid.version}</version>
+        </dependency>
+        <!-- Java OTP 依赖 -->
+        <dependency>
+            <groupId>com.eatthepath</groupId>
+            <artifactId>java-otp</artifactId>
+            <version>${otp.version}</version>
+        </dependency>
+        <!-- Redisson 依赖 -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+        <!-- 嵌入式 Redis 依赖，集成测试时需要 -->
+        <dependency>
+            <groupId>it.ozimov</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <version>${embedded.redis.version}</version>
         </dependency>
         <!-- Problem 依赖 -->
         <dependency>
@@ -53,20 +67,6 @@
             <artifactId>passay</artifactId>
             <version>${passay.version}</version>
         </dependency>
-        <!-- LDAP 依赖开始 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-ldap</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.ldap</groupId>
-            <artifactId>spring-ldap-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.unboundid</groupId>
-            <artifactId>unboundid-ldapsdk</artifactId>
-        </dependency>
-        <!-- LDAP 依赖结束 -->
         <!-- JWT 依赖开始 -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -86,7 +86,24 @@
             <scope>runtime</scope>
         </dependency>
         <!-- JWT 依赖结束 -->
-
+        <!-- LDAP 依赖开始 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-ldap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ldap</groupId>
+            <artifactId>spring-ldap-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-ldap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.unboundid</groupId>
+            <artifactId>unboundid-ldapsdk</artifactId>
+        </dependency>
+        <!-- LDAP 依赖结束 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -124,6 +141,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- Spring Email -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <!-- 用于测试 -->
         <dependency>

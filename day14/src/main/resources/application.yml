@@ -23,7 +23,7 @@ spring:
   datasource:
     initialization-mode: embedded
   activate:
-    on-profile: dev
+    on-profile: test
 
 lxh:
   jwt:

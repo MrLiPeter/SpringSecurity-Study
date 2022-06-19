@@ -1,14 +1,15 @@
 logging:
   level:
     com:
-      uaa: ERROR
+      imooc: DEBUG
     org:
-      hibernate: ERROR
+      hibernate: DEBUG
       springframework:
-        data: ERROR
-        jdbc: ERROR
-        security: ERROR
-    web: ERROR
+        data: DEBUG
+        jdbc: DEBUG
+        ldap: DEBUG
+        security: DEBUG
+    web: DEBUG
   pattern:
     console: '%clr(%d{E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint}
             %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n'
@@ -16,7 +17,7 @@ spring:
   cache:
     type: none
   redis:
-    host: 127.0.0.1
+    host: localhost
     port: 6379
   datasource:
     driver-class-name: org.h2.Driver
@@ -38,9 +39,9 @@ spring:
     hibernate:
       ddl-auto: create
   ldap:
-    base: dc=lxh,dc=com
+    base: dc=imooc,dc=com
     embedded:
-      base-dn: dc=lxh,dc=com
+      base-dn: dc=imooc,dc=com
       ldif: classpath:test-ldap-server.ldif
   mail:
     host: localhost
