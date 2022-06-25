@@ -25,11 +25,30 @@
         <otp.version>0.2.0</otp.version>
         <redisson.version>3.12.5</redisson.version>
         <embedded.redis.version>0.7.2</embedded.redis.version>
+        <aliyun.version>4.5.0</aliyun.version>
+        <leancloud.version>6.5.3</leancloud.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- LeanCloud 依赖 -->
+        <dependency>
+            <groupId>cn.leancloud</groupId>
+            <artifactId>storage-core</artifactId>
+            <version>${leancloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.leancloud</groupId>
+            <artifactId>realtime-core</artifactId>
+            <version>${leancloud.version}</version>
+        </dependency>
+        <!-- 阿里云依赖 -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>${aliyun.version}</version>
         </dependency>
         <!-- SendGrid 依赖 -->
         <dependency>
