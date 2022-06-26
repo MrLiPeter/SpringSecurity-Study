@@ -22,8 +22,19 @@ spring:
     use-code-as-default-message: false
   datasource:
     initialization-mode: embedded
-  activate:
-    on-profile: test
+  mail:
+    host: ${SMTP_HOST}
+    password: ${SMTP_PASSWORD}
+    port: ${SMTP_PORT}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    username: ${SMTP_USERNAME}
+  profiles:
+    active: dev
 
 lxh:
   jwt:
@@ -34,3 +45,6 @@ lxh:
     api-secret: ${ALI_API_SECRET}
   sms-provider:
     name: ali
+  email-provider:
+    api-key: ${EMAIL_API_KEY}
+    name: api

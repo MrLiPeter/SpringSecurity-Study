@@ -30,9 +30,20 @@ public class AppProperties {
 
     @Getter
     @Setter
+    private EmailProvider emailProvider = new EmailProvider();
+
+    @Getter
+    @Setter
     public static class SmsProvider{
         private String name;
         private String apiUrl;
+    }
+
+    @Getter
+    @Setter
+    public static class EmailProvider{
+        private String name;
+        private String apiKey;
     }
 
     @Getter

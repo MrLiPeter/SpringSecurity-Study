@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Service
 @Slf4j
+@RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "uaa.email-provider",name="name",havingValue = "leanCloud")
 public class SmsServiceLeanCloudSmsImpl implements SmsService{
 
     @Override
