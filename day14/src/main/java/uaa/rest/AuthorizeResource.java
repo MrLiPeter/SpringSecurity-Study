@@ -2,7 +2,10 @@ package uaa.rest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import uaa.domain.Auth;
@@ -10,6 +13,7 @@ import uaa.domain.User;
 import uaa.domain.dto.LoginDto;
 import uaa.domain.dto.UserDto;
 import uaa.exception.DuplicateProblem;
+import uaa.service.UserCacheService;
 import uaa.service.UserService;
 import uaa.util.JwtUtil;
 
@@ -22,6 +26,7 @@ public class AuthorizeResource {
 
     private final UserService userService;
     private final JwtUtil jwtUtil;
+    private final UserCacheService userCacheService;
 
     @PostMapping("/register")
     public String register(@Valid @RequestBody UserDto userDto){
@@ -49,8 +54,23 @@ public class AuthorizeResource {
     }
 
     @PostMapping("/token")
-    public Auth login(@Valid @RequestBody LoginDto loginDto) throws AuthenticationException {
-        return userService.login(loginDto.getUserName(),loginDto.getPassword());
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto) throws AuthenticationException {
+
+        return  userService.findOptionalByUsernameAndPassword(loginDto.getUserName(),loginDto.getPassword())
+                .map(user -> {
+                    // todo 1、升级密码编码
+                    // todo 2、验证
+                    // todo 3、判断usingMfa,如果是false,直接返回Token
+                    if(!user.isUsingMfa()){
+                        return ResponseEntity.ok().body(userService.login(loginDto.getUserName(),loginDto.getPassword()));
+                    }
+                    // todo 4、使用多因子认证
+                    val mfaId = userCacheService.cacheUser(user);
+                    // todo 5、"X-Authenticate":"mfa","realm="+mfaId
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                            .header("X-Authenticate","mfa","realm"+mfaId)
+                            .build();
+                }).orElseThrow(()->new BadCredentialsException("用户名或密码错误！"));
     }
 
     @PostMapping("/token/refresh")

@@ -87,7 +87,11 @@ public class TotpUtil {
         return encodeKeyToString(generateKey());
     }
 
-    private Key decodeKeyFromString(String strKey){
+    public Key decodeKeyFromString(String strKey){
         return new SecretKeySpec(Base64.getDecoder().decode(strKey),totp.getAlgorithm());
+    }
+
+    public long getTimeStepInSeconds(){
+        return TIME_STEP;
     }
 }

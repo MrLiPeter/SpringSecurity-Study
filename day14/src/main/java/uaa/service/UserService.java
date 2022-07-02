@@ -14,7 +14,9 @@ import uaa.domain.dto.LoginDto;
 import uaa.repository.RoleRepo;
 import uaa.repository.UserRepo;
 import uaa.util.JwtUtil;
+import uaa.util.TotpUtil;
 
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -25,6 +27,7 @@ public class UserService {
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final TotpUtil totpUtil;
 
     @Transactional
     public User register(User user){
@@ -33,10 +36,12 @@ public class UserService {
                     val userToSave = user.
                             withAuthorities(Set.of(role))
                             .withPassword(passwordEncoder.
-                                    encode(user.getPassword()));
+                                    encode(user.getPassword()))
+                            .withMfaKey(totpUtil.encodeKeyToString());
                     return userRepo.save(userToSave);
                 }).orElseThrow();
     }
+
 
     public Auth login(String username,String passsword) throws AuthenticationException {
         return userRepo.findOptionalByUsername(username)
@@ -45,6 +50,12 @@ public class UserService {
                         jwtUtil.createAccessToken(user),
                         jwtUtil.createRefreshToken(user)
                 )).orElseThrow(()->new BadCredentialsException("用户名密码错误"));
+    }
+
+    public Optional<User> findOptionalByUsernameAndPassword(String userName, String password) {
+        return userRepo.findOptionalByUsername(userName)
+                .filter(user -> passwordEncoder.
+                        matches(password,user.getPassword()));
     }
 
     /**
@@ -73,5 +84,6 @@ public class UserService {
     public boolean isMobileExisted(String username){
         return userRepo.countByMobile(username)>0;
     }
+
 
 }
