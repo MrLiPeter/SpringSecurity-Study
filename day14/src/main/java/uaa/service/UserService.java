@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +57,17 @@ public class UserService {
         return userRepo.findOptionalByUsername(userName)
                 .filter(user -> passwordEncoder.
                         matches(password,user.getPassword()));
+    }
+    public UserDetails updatePassword(User user, String newPassword){
+        return userRepo.findOptionalByUsername(user.getUsername())
+                .map(u->
+                        (User)userRepo.save(u.withPassword(newPassword))
+                )
+                .orElse(user);
+    }
+
+    public Optional<String> createTotp(String key){
+        return totpUtil.createTotp(key);
     }
 
     /**
